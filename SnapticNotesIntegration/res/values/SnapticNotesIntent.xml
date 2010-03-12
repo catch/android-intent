@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="cancel_button">Cancel</string>
+<string name="upgrade_button">Upgrade</string>
+<string name="ok_button">OK</string>
+<string name="error_dialog_title">Error!</string>
+<string name="install_button">Install</string>
+<string name="install_notes_title">Install 3banana Notes?</string>
+<string name="install_notes_message">This feature requires 3banana Notes by Snaptic, the easiest way to take notes on the go!\n\n<i>\"Top 10 Apps All Android Users Should Try\"</i> - TechCrunch\n\nWould you like to install 3banana Notes?</string>
+<string name="notes_intent_error">Failed to launch the 3banana Notes intent.</string>
+<string name="upgrade_notes_title">Upgrade 3banana Notes?</string>
+<string name="upgrade_notes_message">This feature requires a newer version of 3banana Notes by Snaptic, the easiest way to take notes on the go!\n\n<i>\"Top 10 Apps All Android Users Should Try\"</i> - TechCrunch\n\nWould you like to upgrade 3banana Notes?</string>
+<string name="market_error_message">An error occurred while attempting to display the Android Market.</string>
+</resources>
