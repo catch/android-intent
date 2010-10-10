@@ -183,6 +183,7 @@ public class IntentIntegrator {
 		try {
 			Uri uri = Uri.parse(NOTES_MARKET_URI);
 			Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			_context.startActivity(intent);
 		} catch (ActivityNotFoundException e) {
 			e.printStackTrace();
