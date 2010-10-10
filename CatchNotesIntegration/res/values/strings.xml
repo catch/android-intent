@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="message">Click any button to test Catch Intents:</string>
+<string name="app_name">Catch Intent Test Utility</string>
+<string name="create_simple_note_button">Create a Simple Note</string>
+<string name="create_image_note_button">Create a Note with Image</string>
+<string name="create_quick_note_button">Add a Quick Note</string>
+<string name="create_location_note_button">Create a Location Tagged Note</string>
+<string name="view_notes_button">View Notes</string>
+<string name="cursor_positioning_button">Cursor Positioning Example</string>
+<string name="toast_quick_note">Quick note added.</string>
+</resources>

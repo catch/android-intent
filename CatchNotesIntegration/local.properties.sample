@@ -1,0 +1,8 @@
+# Location of the Android SDK.
+#
+# Replace this with the path specific to your build machine.
+#
+# This is only necessary if you want to use ant to build the APK
+# from the command line.
+
+sdk.dir=/Developer/Android/android-sdk-mac_86
