@@ -21,7 +21,7 @@ public class IntentIntegrator {
 	private static final String NOTES_PACKAGE_NAME = "com.threebanana.notes"; 
 	private static final String NOTES_MARKET_URI = "http://market.android.com/search?q=pname:" + NOTES_PACKAGE_NAME;
 	
-	private static final int NOTES_MIN_VERSION_CODE = 38;
+	private static final int NOTES_MIN_VERSION_CODE = 54;
 	
 	private final Context _context;
 	
@@ -30,26 +30,30 @@ public class IntentIntegrator {
 	}
 	
 	public void createNote(String message) {
-		createNote(message, null, -1, false, null);
+		createNote(message, null, 0, -1, false, null, null, false);
 	}
 
 	public void createNote(String message, int cursorPosition) {
-		createNote(message, null, cursorPosition, false, null);
+		createNote(message, null, 0, cursorPosition, false, null, null, false);
 	}
 
 	public void createNote(String message, boolean autoSave) {
-		createNote(message, null, -1, autoSave, null);
+		createNote(message, null, 0, -1, autoSave, null, null, false);
 	}
 
-	public void createNote(String message, Uri imageUri) {
-		createNote(message, null, -1, false, imageUri);
+	public void createNote(String message, Uri mediaUri, String mimeType, boolean isVoiceNote) {
+		createNote(message, null, 0, -1, false, mediaUri, mimeType, isVoiceNote);
 	}
 	
 	public void createNote(String message, Location location) {
-		createNote(message, location, -1, false, null);
+		createNote(message, location, 0, -1, false, null, null, false);
 	}
 	
-	public void createNote(String message, Location location, int cursorPosition, boolean autoSave, Uri imageUri) {
+	public void createNote(String message, long reminder) {
+		createNote(message, null, reminder, -1, false, null, null, false);
+	}
+
+	public void createNote(String message, Location location, long reminder, int cursorPosition, boolean autoSave, Uri mediaUri, String mimeType, boolean isVoiceNote) {
 		// Verify that correct version of notes is installed
 		if (!isNotesInstalled()) {
 			return;
@@ -69,23 +73,61 @@ public class IntentIntegrator {
 		// for this note. Don't use the example below; please arrange with the
 		// Catch development team for the string you will use to identify your
 		// app. The object should be a String.
-		intent.putExtra(CatchIntent.EXTRA_SOURCE, "Catch Intent Test Utility");
+		intent.putExtra(CatchIntent.EXTRA_SOURCE, "Catch Intent Test Utility"); // TODO: *** change this to your own source string! ***
+		
+		// Mandatory; EXTRA_SOURCE_URL identifies a URL which will be presented
+		// in conjunction with your EXTRA_SOURCE field. This should link to your
+		// site, app, or other relevant web asset. The object should be a String.
+		intent.putExtra(CatchIntent.EXTRA_SOURCE_URL, "https://catch.com/");    // TODO: *** change this to your own source URL! ***
 		
 		// Optional; if EXTRA_TITLE is supplied it will appear in the
 		// titlebar of the note editor activity in Catch Notes. The object should be
-		// a String.
-		intent.putExtra(Intent.EXTRA_TITLE, "Intent Testing");
+		// a String. It will appear as:
+		//
+		//    New note: <your title>
+		//
+		intent.putExtra(Intent.EXTRA_TITLE, "testing Catch Intents");			// TODO: *** change this to your own title (or leave the extra out) ***
 
-		// Optional: include an image. Image URIs should point to JPEG images,
+		// Optional: include a media attachment. The attachment Uri should be
 		// accessible to external packages (i.e., don't point to content private
-		// to your application). The object should be a Uri.
-		if (imageUri != null) {
-			intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+		// to your application).
+		if (mediaUri != null) {
+			intent.putExtra(Intent.EXTRA_STREAM, mediaUri);
+			
+			// If you don't supply a MIME type, Catch Notes will attempt to
+			// figure it out based on ContentProvider hints or the filename extension.
+			//
+			// Note that the Catch sync servers do strict MIME type checking; if you
+			// misrepresent the MIME type of a media attachment, your users will not be
+			// able to sync them.
+			if (mimeType != null) {
+				intent.setType(mimeType);
+			}
+			
+			// Note that Catch Notes will enforce restrictions of what MIME types
+			// can be considered voice recordings: "audio/*", "video/*", "application/ogg".
+			// Also note that not all media files that match these descriptors will
+			// play in the player controllers of Catch Notes (Android, iOS, or web).
+			// Only certain common codecs and container formats are supported.
+			// For Android, we suggest "video/3gpp" with AMR narrowband audio or
+			// "video/mp4" with AAC audio for best compatibility.
+			//
+			// Audio attachments that do not have this voice note flag set will
+			// be treated like regular file attachments to the note.
+			if (isVoiceNote) {
+				intent.putExtra(CatchIntent.EXTRA_VOICE, true);
+			}
 		}
 		
 		// Optional: include a location. The object should be a Location.
 		if (location != null) {
 			intent.putExtra(CatchIntent.EXTRA_LOCATION, location);		
+		}
+		
+		// Optional: include a reminder. This value is standard system
+		// millisecond time (milliseconds since January 1, 1970 00:00:00 UTC)
+		if (reminder > System.currentTimeMillis()) {
+			intent.putExtra(CatchIntent.EXTRA_REMINDER, reminder);		
 		}
 		
 		// Optional: specify a cursor position for the editor. The type should
@@ -105,7 +147,7 @@ public class IntentIntegrator {
 		// Start the Intent
 		startNotesIntent(intent);
 	}
-	
+
 	public void viewNotes(String tag) {
 		// Verify that correct version of notes is installed
 		if (!isNotesInstalled()) {
@@ -121,10 +163,61 @@ public class IntentIntegrator {
 		Intent intent = new Intent();
 		intent.setAction(CatchIntent.ACTION_VIEW);
 		intent.putExtra(CatchIntent.EXTRA_VIEW_FILTER, tag);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		// Start the Intent
 		startNotesIntent(intent);
-	}	
+	}
+	
+	// Ask Catch Notes to interactively record a voice note and save it to
+	// the user's notebook. Text may be included with the Intent and the text
+	// will be included in the text portion of the voice note entry. This
+	// is an *interactive* Intent -- to add a pre-recorded voice note to Catch,
+	// one would use CatchIntent.ACTION_ADD, include a URI to the voice recording
+	// in Intent.EXTRA_STREAM, and include a boolean true extra as CatchIntent.EXTRA_VOICE.
+	public void recordVoice(String message) {
+		// Verify that correct version of notes is installed
+		if (!isNotesInstalled()) {
+			return;
+		}
+		
+		// Create the Intent		
+		Intent intent = new Intent();
+		intent.setAction(CatchIntent.ACTION_ADD_VOICE);
+		
+		// Optional: text to include with the voice note.
+		if (message != null) {
+			intent.putExtra(Intent.EXTRA_TEXT, message);
+		}
+
+		// Start the Intent
+		startNotesIntent(intent);
+	}
+	
+	// Ask Catch Notes to interactively allow the user to set a reminder date/time
+	// and save it to the user's notebook. Text may be included with the Intent
+	// and the text will be included in the text portion of the entry. This
+	// is an *interactive* Intent -- to add a note to Catch with a predetermined
+	// reminder timestamp, one would use CatchIntent.ACTION_ADD, and include as
+	// a long extra the reminder value as CatchIntent.EXTRA_REMINDER.
+	public void addReminder(String message) {
+		// Verify that correct version of notes is installed
+		if (!isNotesInstalled()) {
+			return;
+		}
+		
+		// Create the Intent		
+		Intent intent = new Intent();
+		intent.setAction(CatchIntent.ACTION_ADD_REMINDER);
+		
+		// Optional: text to include with the reminder note.
+		if (message != null) {
+			intent.putExtra(Intent.EXTRA_TEXT, message);
+		}
+
+		// Start the Intent
+		startNotesIntent(intent);
+	}
 	
 	private boolean isNotesInstalled() {
 		// Verify that correct version of notes is installed

@@ -1,63 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/message"
-    android:gravity="center"
-    android:layout_marginTop="10px"
-    android:textSize="14px"
-    />
-<Button 
-	android:text="@string/create_simple_note_button"
-	android:id="@+id/create_simple_note_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-<Button 
-	android:text="@string/create_image_note_button"
-	android:id="@+id/create_image_note_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-<Button 
-	android:text="@string/create_quick_note_button"
-	android:id="@+id/create_quick_note_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-<Button 
-	android:text="@string/create_location_note_button"
-	android:id="@+id/create_location_note_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-<Button 
-	android:text="@string/view_notes_button"
-	android:id="@+id/view_notes_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-<Button 
-	android:text="@string/cursor_positioning_button"
-	android:id="@+id/cursor_positioning_button"
-	android:layout_width="225px"
-	android:layout_height="wrap_content"
-	android:layout_gravity="center_horizontal"
-    android:layout_marginTop="15px"
-	/>
-</LinearLayout>
+    android:layout_height="fill_parent">
+    
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:paddingLeft="24dp"
+	    android:paddingRight="24dp">
+	    
+		<TextView  
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content"
+		    android:textAppearance="?android:attr/textAppearanceSmall" 
+		    android:text="@string/message"
+		    android:gravity="center"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/create_simple_note_button"
+			android:id="@+id/create_simple_note_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/create_image_note_button"
+			android:id="@+id/create_image_note_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/create_quick_note_button"
+			android:id="@+id/create_quick_note_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/create_location_note_button"
+			android:id="@+id/create_location_note_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/view_notes_button"
+			android:id="@+id/view_notes_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/cursor_positioning_button"
+			android:id="@+id/cursor_positioning_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+		<Button 
+			android:text="@string/voice_recording_button"
+			android:id="@+id/voice_recording_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+		    
+   		<Button
+			android:text="@string/reminder_button"
+			android:id="@+id/reminder_button"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+		    android:layout_marginTop="16dp" />
+	    
+	</LinearLayout>
+</ScrollView>
