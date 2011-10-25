@@ -7,6 +7,8 @@
 	<string name="create_quick_note_button">Add a Quick Note</string>
 	<string name="create_location_note_button">Create a Location Tagged Note</string>
 	<string name="view_notes_button">View Notes</string>
+	<string name="view_tagged_notes_button">View Tagged Notes</string>
+	<string name="view_stream_button">View Stream</string>
 	<string name="cursor_positioning_button">Cursor Positioning Example</string>
 	<string name="voice_recording_button">Record a Voice Note</string>
 	<string name="reminder_button">Add a Reminder Note</string>

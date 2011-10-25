@@ -16,6 +16,8 @@
 
 package com.catchnotes.samples.integration;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
@@ -71,10 +73,24 @@ public class IntentTestActivity extends Activity {
         });
         
         ((Button)findViewById(R.id.view_notes_button)).setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				_notesIntent.viewNotes("#sample");
-			}        	
-        });        
+            public void onClick(View v) {
+                _notesIntent.viewNotes(null, "sample", null);
+            }           
+        });
+        
+        ((Button)findViewById(R.id.view_tagged_notes_button)).setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                ArrayList<String> tags = new ArrayList<String>(1);
+                tags.add("sample");
+                _notesIntent.viewNotes(null, null, tags);
+            }           
+        }); 
+        
+        ((Button)findViewById(R.id.view_stream_button)).setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                _notesIntent.viewNotes("Sample", null, null);
+            }           
+        }); 
         
         ((Button)findViewById(R.id.cursor_positioning_button)).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
