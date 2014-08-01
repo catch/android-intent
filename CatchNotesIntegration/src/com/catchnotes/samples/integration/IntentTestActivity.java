@@ -50,8 +50,10 @@ public class IntentTestActivity extends Activity {
 			public void onClick(View v) {
 		          Intent galleryIntent = new Intent(Intent.ACTION_PICK);
 		          galleryIntent.setType("image/*");
-		          startActivityForResult(Intent.createChooser(galleryIntent,
-		        		  "Choose from:"), IMAGE_PICKED);
+		          if(galleryIntent.resolveActivity(getPackageManager()) != null){
+		          	startActivityForResult(Intent.createChooser(galleryIntent,
+		        		  	"Choose from:"), IMAGE_PICKED);
+		          }
 			}        	
         });
         
